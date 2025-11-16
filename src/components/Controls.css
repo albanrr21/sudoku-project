@@ -1,0 +1,84 @@
+/* src/components/Controls.css */
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Spacing between elements */
+  padding: 25px;
+  background-color: var(
+    --color-bg-light
+  ); /* Lighter dark background for the panel */
+  border-radius: 8px; /* Slightly rounded corners */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* Subtle depth */
+  width: 280px;
+  font-family: "Share Tech Mono", monospace; /* Apply modern font */
+}
+
+.controls h3 {
+  color: var(--color-text-accent); /* Accent for headings */
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-weight: normal;
+  font-size: 1.3em;
+  letter-spacing: 1px;
+}
+
+.controls hr {
+  border: none;
+  border-top: 1px solid var(--color-border-main);
+  margin: 20px 0;
+}
+
+.controls button {
+  background-color: var(--color-button-bg);
+  color: var(--color-button-text);
+  border: none;
+  padding: 12px 20px;
+  font-size: 1em;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  font-family: "Share Tech Mono", monospace;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.controls button:hover {
+  background-color: var(--color-button-hover);
+  transform: translateY(-2px); /* Slight lift effect */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.controls button:active {
+  transform: translateY(0);
+}
+
+.stats-box {
+  background-color: #282828; /* Slightly darker than main panel */
+  border: 1px solid var(--color-border-main);
+  border-radius: 5px;
+  padding: 15px;
+  margin-top: 20px;
+}
+
+.stats-box h4 {
+  color: var(--color-text-accent);
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.1em;
+  font-weight: normal;
+  letter-spacing: 0.8px;
+}
+
+.stats-box p {
+  margin: 5px 0;
+  font-size: 0.95em;
+  color: var(--color-text-light);
+}
+
+.stats-box p strong {
+  /* For the bolded numbers */
+  color: var(
+    --color-initial-clue
+  ); /* Use initial clue color for stats values */
+}

@@ -1,38 +1,61 @@
+:root {
+  --color-bg-dark: #1a1a1a; /* Deeper Primary Dark Background */
+  --color-bg-light: #282828; /* Lighter dark for panels/buttons */
+  --color-text-light: #e0e0e0; /* Softer Light Text */
+  --color-text-accent: #61dafb; /* Light blue accent (like React default) */
+  --color-border-main: #3a3a3a; /* Softer Main Grid Border */
+  --color-border-block: #777; /* Stronger Thick Block Border */
+  --color-initial-clue: #4caf50; /* A bit stronger green for fixed numbers */
+  --color-mutable-text: #e0e0e0; /* Same as text-light for user-entered numbers */
+  --color-highlight: #333; /* Active cell background */
+  --color-hover: #2a2a2a; /* Cell hover/focus background */
+  --color-button-bg: #444; /* Button background */
+  --color-button-hover: #666; /* Button hover */
+  --color-button-text: #e0e0e0; /* Button text */
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-bg-dark); /* Set dark background globally */
+  color: var(--color-text-light);
+}
+
 .App {
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+  padding: 20px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  box-sizing: border-box;
 }
 
-.App-link {
-  color: #61dafb;
+.main-content {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 60px;
+  margin-top: 40px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+h1 {
+  font-family: "Share Tech Mono", monospace;
+  color: var(--color-text-accent);
+  font-size: 3em;
+  letter-spacing: 5px;
+  text-shadow: 0 0 10px rgba(97, 218, 251, 0.5);
+  margin-bottom: 0;
+}
+
+@media (max-width: 900px) {
+  .main-content {
+    flex-direction: column;
+    align-items: center;
   }
 }
