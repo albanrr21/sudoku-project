@@ -1,61 +1,66 @@
 :root {
-  --color-bg-dark: #1a1a1a; /* Deeper Primary Dark Background */
-  --color-bg-light: #282828; /* Lighter dark for panels/buttons */
-  --color-text-light: #e0e0e0; /* Softer Light Text */
-  --color-text-accent: #61dafb; /* Light blue accent (like React default) */
-  --color-border-main: #3a3a3a; /* Softer Main Grid Border */
-  --color-border-block: #777; /* Stronger Thick Block Border */
-  --color-initial-clue: #4caf50; /* A bit stronger green for fixed numbers */
-  --color-mutable-text: #e0e0e0; /* Same as text-light for user-entered numbers */
-  --color-highlight: #333; /* Active cell background */
-  --color-hover: #2a2a2a; /* Cell hover/focus background */
-  --color-button-bg: #444; /* Button background */
-  --color-button-hover: #666; /* Button hover */
-  --color-button-text: #e0e0e0; /* Button text */
-}
+  /* Palette */
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --accent-primary: #38bdf8; /* Sky 400 */
+  --accent-secondary: #818cf8; /* Indigo 400 */
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --glass-bg: rgba(30, 41, 59, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: var(--color-bg-dark); /* Set dark background globally */
-  color: var(--color-text-light);
+  /* Sudoku Specific */
+  --board-bg: rgba(15, 23, 42, 0.8);
+  --cell-border: rgba(148, 163, 184, 0.2);
+  --block-border: rgba(56, 189, 248, 0.5);
+  --cell-hover: rgba(56, 189, 248, 0.1);
+  --cell-highlight: rgba(56, 189, 248, 0.2);
+  --text-initial: #38bdf8;
+  --text-user: #f1f5f9;
+  --text-error: #f87171;
 }
 
 .App {
-  text-align: center;
-  padding: 20px;
   min-height: 100vh;
+  background: radial-gradient(circle at top left, #1e1b4b, #0f172a);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-sizing: border-box;
+  padding: 20px;
+  color: var(--text-primary);
+}
+
+h1 {
+  font-size: 3.5rem;
+  font-weight: 800;
+  background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 2rem;
+  text-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+  letter-spacing: -0.05em;
 }
 
 .main-content {
   display: flex;
-  justify-content: center;
+  gap: 4rem;
   align-items: flex-start;
-  gap: 60px;
-  margin-top: 40px;
+  justify-content: center;
+  width: 100%;
+  max-width: 1200px;
 }
 
-h1 {
-  font-family: "Share Tech Mono", monospace;
-  color: var(--color-text-accent);
-  font-size: 3em;
-  letter-spacing: 5px;
-  text-shadow: 0 0 10px rgba(97, 218, 251, 0.5);
-  margin-bottom: 0;
-}
-
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .main-content {
     flex-direction: column;
     align-items: center;
+    gap: 2rem;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
   }
 }

@@ -41,22 +41,38 @@ const initialPuzzle = generateUniquePuzzle(45); // Generate a fresh puzzle on st
 
 function App() {
   // State 1: The current board (9x9 array)
-  const [board, setBoard] = useState(createInitialBoardState(initialPuzzle));
+  // We'll initialize with an "Easy" puzzle (30 clues removed)
+  const [board, setBoard] = useState(createInitialBoardState(generateUniquePuzzle(30)));
+  
   // State 2: Stats for the demo
   const [stats, setStats] = useState(initialStats);
+  
   // State 3: Control the visualization speed
   const [delay] = useState(1); // 50ms pause per step
+  
+  // State 4: Difficulty
+  const [difficulty, setDifficulty] = useState("Easy");
+
+  const difficultyMap = {
+    Easy: 30,
+    Medium: 40,
+    Hard: 50,
+  };
+
   const handleClearBoard = () => {
     setStats(initialStats);
     setBoard(createEmptyMutableBoard()); // Reset to a fully mutable, empty board
   };
+
   const handleGenerate = () => {
     setStats(initialStats); // Reset stats
 
-    // Create a new puzzle and update the state
-    const newPuzzle = generateUniquePuzzle(45);
+    // Create a new puzzle based on difficulty
+    const cluesToRemove = difficultyMap[difficulty];
+    const newPuzzle = generateUniquePuzzle(cluesToRemove);
     setBoard(createInitialBoardState(newPuzzle));
   };
+
   const mapRawToInitialObjectBoard = (oldObjectBoard, newRawBoard) => {
     return oldObjectBoard.map((row, r) =>
       row.map((oldCell, c) => {
@@ -132,6 +148,67 @@ function App() {
     // (You can add logic here to show a "Solved!" message)
   };
 
+  const getConflicts = (board, r, c) => {
+    const conflicts = [];
+    const val = board[r][c].value;
+    
+    if (val === 0) return conflicts;
+
+    // Check Row
+    for (let col = 0; col < 9; col++) {
+      if (col !== c && board[r][col].value === val) {
+        conflicts.push({ r, c: col });
+      }
+    }
+
+    // Check Col
+    for (let row = 0; row < 9; row++) {
+      if (row !== r && board[row][c].value === val) {
+        conflicts.push({ r: row, c });
+      }
+    }
+
+    // Check Box
+    const boxStartRow = Math.floor(r / 3) * 3;
+    const boxStartCol = Math.floor(c / 3) * 3;
+    
+    for (let row = 0; row < 3; row++) {
+      for (let col = 0; col < 3; col++) {
+        const currentRow = boxStartRow + row;
+        const currentCol = boxStartCol + col;
+        
+        if ((currentRow !== r || currentCol !== c) && 
+            board[currentRow][currentCol].value === val) {
+          conflicts.push({ r: currentRow, c: currentCol });
+        }
+      }
+    }
+    
+    return conflicts;
+  };
+
+  const validateBoard = (board) => {
+    // Reset all conflicts first
+    const newBoard = board.map(row => row.map(cell => ({ ...cell, isConflict: false })));
+
+    // Check every cell
+    for (let r = 0; r < 9; r++) {
+      for (let c = 0; c < 9; c++) {
+        if (newBoard[r][c].value !== 0) {
+          const conflicts = getConflicts(newBoard, r, c);
+          if (conflicts.length > 0) {
+            newBoard[r][c].isConflict = true;
+            // Optionally mark the other conflicting cells too?
+            // For now, let's just mark the current cell if it has ANY conflict.
+            // Actually, if A conflicts with B, both should be red.
+            // Our loop will catch B when it visits B, so both will be marked.
+          }
+        }
+      }
+    }
+    return newBoard;
+  };
+
   const handleInputChange = (r, c, value) => {
     // 1. Convert to number (0 if empty/invalid)
     const num = parseInt(value) || 0;
@@ -141,16 +218,17 @@ function App() {
 
     setBoard((prevBoard) => {
       // Deep copy of the board rows is essential for React state updates
-      const newBoard = prevBoard.map((row) => [...row]);
+      // We need a deeper copy because we might modify isConflict on many cells
+      const newBoard = prevBoard.map((row) => row.map(cell => ({ ...cell })));
 
       // This check should pass for mutable cells
       if (!newBoard[r][c].isInitial) {
         newBoard[r][c].value = num;
-
-        // This is the flag we added last time
         newBoard[r][c].isUserPlaced = num > 0;
       }
-      return newBoard; // <-- MUST return the new state
+      
+      // Validate the WHOLE board to update conflicts dynamically
+      return validateBoard(newBoard);
     });
 
     setStats(initialStats);
@@ -185,6 +263,8 @@ function App() {
           onGenerate={handleGenerate}
           onClearBoard={handleClearBoard}
           stats={stats}
+          difficulty={difficulty}
+          onDifficultyChange={setDifficulty}
         />
       </div>
     </div>

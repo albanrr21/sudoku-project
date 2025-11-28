@@ -1,82 +1,92 @@
 /* src/components/Cell.css */
 
-/* --- Base Cell Styles (apply to both div and input) --- */
 .cell,
 input.cell {
-  /* Target both the div for initial cells and input for mutable */
   width: 100%;
   height: 100%;
-  display: flex; /* Use flex for centering content */
+  display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 26px; /* Slightly larger font */
-  border: 1px solid var(--color-border-main); /* Lighter main border */
+  font-size: 1.5rem;
+  font-weight: 500;
+  border: 1px solid var(--cell-border);
   box-sizing: border-box;
-  background-color: var(--color-bg-dark);
-  transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out; /* Smooth transitions */
-
-  /* Input specific overrides */
-  -moz-appearance: textfield; /* Firefox hides spinners */
+  background-color: transparent;
+  transition: all 0.2s ease;
+  color: var(--text-user);
+  
+  /* Input specific */
+  appearance: textfield;
+  -moz-appearance: textfield;
   text-align: center;
-  outline: none; /* Remove default focus border */
+  outline: none;
   padding: 0;
   margin: 0;
-  color: var(--color-mutable-text); /* Default text color for mutable */
+  cursor: default;
 }
 
-/* Hide input arrows for Webkit (Chrome, Safari, Edge) */
+input.cell {
+  cursor: text;
+}
+
+/* Hide input arrows */
 input.cell::-webkit-outer-spin-button,
 input.cell::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-/* --- Border Styles for 3x3 blocks --- */
+/* Borders for 3x3 blocks */
 .border-right {
-  border-right: 3px solid var(--color-border-block);
+  border-right: 2px solid var(--block-border);
 }
 
 .border-bottom {
-  border-bottom: 3px solid var(--color-border-block);
+  border-bottom: 2px solid var(--block-border);
 }
 
-/* --- Text Colors --- */
+/* Text Colors */
 .cell-initial {
   font-weight: 700;
-  color: var(--color-initial-clue); /* Light green/cyan */
+  color: var(--text-initial);
+  background-color: rgba(56, 189, 248, 0.05);
 }
 
-/* Mutable cells already get --color-mutable-text */
-
-/* --- Solver Visualization --- */
 .cell-highlight {
-  background-color: var(--color-highlight); /* Darker highlight */
+  background-color: var(--cell-highlight);
 }
 
-/* --- Hover/Focus Effects for User Experience --- */
-input.cell:hover:not(.cell-initial), /* Only mutable cells */
+/* Hover/Focus */
+input.cell:hover:not(.cell-initial),
 input.cell:focus:not(.cell-initial) {
-  background-color: var(
-    --color-hover
-  ); /* A slightly lighter dark for hover/focus */
-  box-shadow: 0 0 5px 1px var(--color-initial-clue); /* Subtle glow on focus */
+  background-color: var(--cell-hover);
+  box-shadow: inset 0 0 0 2px var(--accent-primary);
 }
 
-/* Optional: style for conflict (invalid user input) */
+/* Conflict */
 .cell-conflict {
-  background-color: #5a0000 !important; /* Dark red background for conflict */
-  color: #ffcccc !important;
+  background-color: rgba(248, 113, 113, 0.2) !important;
+  color: var(--text-error) !important;
+  animation: shake 0.3s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  75% { transform: translateX(2px); }
 }
 
 .cell-user-input {
-  color: #ff5733; /* Bright contrasting color like orange/red */
-  font-weight: 600; /* Slightly bolder than algorithm output */
-  /* Optional: Add a subtle text shadow */
-  text-shadow: 0 0 4px rgba(255, 87, 51, 0.5);
+  color: var(--text-user);
+  font-weight: 600;
 }
 
-/* Ensure the algorithm's output (non-user-placed mutable cells) retains its distinct style */
 .cell-mutable {
-  color: var(--color-mutable-text); /* White/light gray for algorithm output */
-  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 500px) {
+  .cell, input.cell {
+    font-size: 1.2rem;
+  }
 }
